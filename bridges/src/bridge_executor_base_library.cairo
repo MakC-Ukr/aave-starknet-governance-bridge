@@ -176,52 +176,76 @@ namespace BridgeExecutorBaseLibrary{
         data: felt*,
         // nonce_used: felt,
     ) -> (res: felt){
-
         let response = call_contract(
             contract_address = target,
             function_selector = signature,
             calldata_size = data_len,
             calldata = data
         );
-
+        // syntax for call_contract taken from: https://github.com/Th0rgal/better-multicall/blob/109edc7792e7c22ead3ab5fea7355e9787a70d47/src/normal.cairo
         return (res = response);
     }
 
-    // syntax for call_contract taken from: https://github.com/Th0rgal/better-multicall/blob/109edc7792e7c22ead3ab5fea7355e9787a70d47/src/normal.cairo
+    func cancel{
+        syscall_ptr : felt*,
+        pedersen_ptr : HashBuiltin*,
+        range_check_ptr
+    }(
+        id: felt
+    ){
+        // let (actions_set) = _actionsSets.read(id);
+        let (actions_set : ActionsSet) = get_actions_set_example();
+        assert actions_set.executed = 0;
+        assert actions_set.canceled = 0; // this would probably fail though
+        // _actionsSets.write(id, actions_set);
+    }
+
+    func _queue{
+        syscall_ptr : felt*,
+        pedersen_ptr : HashBuiltin*,
+        range_check_ptr
+    }(
+        targets_len: felt,
+        targets: felt*,
+        
+        values_len:felt,
+        values: felt*,
+
+        signatures_len:felt,
+        signatures: felt*,
+
+        calldatas_len:felt,
+        calldatas: felt*,
+
+        withDelegatecalls_len:felt,
+        withDelegatecalls: felt*
+    ) -> (res: felt){
+        let (new_id) = _actions_set_counter.read();
+        _actions_set_counter.write(new_id+1);
+        let (exec_time) = 69;
+
+        let actions_set_instance = ActionsSet(
+            targets_len = targets_len,
+            targets = targets,
+
+            values_len = values_len,
+            values =  values,
+
+            signatures_len = signatures_len,
+            signatures =  signatures,
+
+            calldatas_len = calldatas_len,
+            calldatas =  calldatas,
+
+            withDelegatecalls_len = withDelegatecalls_len,
+            withDelegatecalls =  withDelegatecalls,
+
+            executionTime = exec_time,
+            executed = 0,
+            canceled = 0,
+        );
+        
+        // _actionsSets.write(new_id, actions_set_instance);
+    }
+
 }
-
-
-
-// function _executeTransaction(
-//     address target,
-//     uint256 value,
-//     string memory signature,
-//     bytes memory data,
-//     uint256 executionTime,
-//     bool withDelegatecall
-//   ) internal returns (bytes memory) {
-//     if (address(this).balance < value) revert InsufficientBalance();
-
-//     bytes32 actionHash = keccak256(
-//       abi.encode(target, value, signature, data, executionTime, withDelegatecall)
-//     );
-//     _queuedActions[actionHash] = false;
-
-//     bytes memory callData;
-//     if (bytes(signature).length == 0) {
-//       callData = data;
-//     } else {
-//       callData = abi.encodePacked(bytes4(keccak256(bytes(signature))), data);
-//     }
-
-//     bool success;
-//     bytes memory resultData;
-//     if (withDelegatecall) {
-//       (success, resultData) = this.executeDelegateCall{value: value}(target, callData);
-//     } else {
-//       // solium-disable-next-line security/no-call-value
-//       (success, resultData) = target.call{value: value}(callData);
-//     }
-//     return _verifyCallResult(success, resultData);
-//   }
-

@@ -16,15 +16,15 @@ func _delay() -> (res: felt) {
 }
 // Time after the execution time during which the actions set can be executed
 @storage_var
-func _gracePeriod() -> (res: felt) {
+func _grace_period() -> (res: felt) {
 }
 // Minimum allowed delay
 @storage_var
-func _minimumDelay() -> (res: felt) {
+func _minimum_delay() -> (res: felt) {
 }
 // Maximum allowed delay
 @storage_var
-func _maximumDelay() -> (res: felt) {
+func _maximum_delay() -> (res: felt) {
 }
 // Address with the ability of canceling actions sets
 @storage_var
@@ -58,6 +58,48 @@ namespace BridgeExecutorBaseLibrary{
         assert caller = _guardian_addr;
     }
 
+    func get_delay{
+        syscall_ptr : felt*,
+        pedersen_ptr : HashBuiltin*,
+        range_check_ptr,
+    }() -> (res:felt){
+        let res = _delay.read();
+        return (res);
+    }
+
+    func get_grace_period{
+        syscall_ptr : felt*,
+        pedersen_ptr : HashBuiltin*,
+        range_check_ptr,
+    }() -> (res:felt){
+        let res = _grace_period.read();
+        return (res);
+    }
+    func get_minimum_delay{
+        syscall_ptr : felt*,
+        pedersen_ptr : HashBuiltin*,
+        range_check_ptr,
+    }() -> (res:felt){
+        let res = _minimum_delay.read();
+        return (res);
+    }
+    func get_maximum_delay{
+        syscall_ptr : felt*,
+        pedersen_ptr : HashBuiltin*,
+        range_check_ptr,
+    }() -> (res:felt){
+        let res = _maximum_delay.read();
+        return (res);
+    }
+    func get_guardian{
+        syscall_ptr : felt*,
+        pedersen_ptr : HashBuiltin*,
+        range_check_ptr,
+    }() -> (res:felt){
+        let res = _guardian.read();
+        return (res);
+    }
+
     func update_guardian{
         syscall_ptr : felt*,
         pedersen_ptr : HashBuiltin*,
@@ -81,7 +123,7 @@ namespace BridgeExecutorBaseLibrary{
         pedersen_ptr : HashBuiltin*,
         range_check_ptr,
     }(new_gp: felt){
-        _delay.write(new_gp);
+        _grace_period.write(new_gp);
         return ();
     }   
 
@@ -90,7 +132,7 @@ namespace BridgeExecutorBaseLibrary{
         pedersen_ptr : HashBuiltin*,
         range_check_ptr,
     }(new_md: felt){
-        _minimumDelay.write(new_md);
+        _minimum_delay.write(new_md);
         return ();
     }
 
@@ -99,7 +141,7 @@ namespace BridgeExecutorBaseLibrary{
         pedersen_ptr : HashBuiltin*,
         range_check_ptr,
     }(new_md: felt){
-        _maximumDelay.write(new_md);
+        _maximum_delay.write(new_md);
         return ();
     }
 
@@ -173,17 +215,16 @@ namespace BridgeExecutorBaseLibrary{
         target: felt,
         signature: felt,
         data_len: felt, 
-        data: felt*,
-        // nonce_used: felt,
-    ) -> (res: felt){
-        let response = call_contract(
+        data: felt*
+    ) -> (){
+        call_contract(
             contract_address = target,
             function_selector = signature,
             calldata_size = data_len,
             calldata = data
         );
         // syntax for call_contract taken from: https://github.com/Th0rgal/better-multicall/blob/109edc7792e7c22ead3ab5fea7355e9787a70d47/src/normal.cairo
-        return (res = response);
+        return ();
     }
 
     func cancel{

@@ -3,7 +3,8 @@
 from starkware.cairo.common.cairo_builtins import HashBuiltin
 from starkware.cairo.common.math import (assert_lt)
 from src.bridge_executor_base_library import BridgeExecutorBaseLibrary
-
+from starkware.starknet.common.syscalls import call_contract
+from starkware.cairo.common.alloc import alloc
 const MINIMUM_GRACE_PERIOD = 10; // is equal to 10 minutes in Solidity  
 
 @constructor
@@ -145,4 +146,20 @@ func _execute_actions_set{
 ) -> (){
     BridgeExecutorBaseLibrary._execute_actions_set(target, signature, data_len, data);
     return ();
+}
+
+@l1_handler
+func l1_action_receive{
+    syscall_ptr : felt*,
+    pedersen_ptr : HashBuiltin*,
+    range_check_ptr
+}(from_address: felt, target:felt, signature: felt){
+    // *logic for checking from_address here*
+    
+    let (data_arr: felt*) = alloc();
+    assert data_arr[0] = [69];
+    let data_len = 0;
+
+    BridgeExecutorBaseLibrary._execute_actions_set(target, signature, data_len, data_arr);
+    return();
 }

@@ -27,6 +27,17 @@ func increment{
     return();
 }
 
+@external 
+func increment_by{
+    syscall_ptr: felt*, 
+    range_check_ptr,    
+    pedersen_ptr: HashBuiltin*
+}(by_val: felt){
+    let (curr_val) = value.read();
+    value.write(curr_val + by_val);
+    return();
+}
+
 @view
 func get_val{
     syscall_ptr: felt*, 

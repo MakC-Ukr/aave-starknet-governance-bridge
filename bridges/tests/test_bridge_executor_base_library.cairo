@@ -6,6 +6,8 @@ from starkware.cairo.common.alloc import alloc
 namespace Counter {
     func increment(){
     }
+    func increment_by(by_val:felt){
+    }
     func get_val() -> (res:felt){
     }
 }
@@ -37,6 +39,7 @@ namespace BridgeExecutorBase {
 }
 
 const INCREMENT_SELECTOR = 216030643445273762074482936742625134427639679021380938148798651889117677069;
+const INCREMENT_BY_SELECTOR = 1372527888969287386569109374288593585984070617352816222675776115507726520402;
 
 @external
 func __setup__() {
@@ -147,6 +150,40 @@ func test_call_contract{
 
     let (val_new) = Counter.get_val(counter_address);
     assert val_new = 2; // 1+1
+
+    return ();
+}
+
+@external
+func test_call_contract_with_param{
+    syscall_ptr: felt*, 
+    range_check_ptr,    
+    pedersen_ptr: HashBuiltin*
+}() {
+    alloc_locals;
+    local bridge_address;
+    local counter_address;
+    let (data_arr: felt*) = alloc();
+    assert data_arr[0] = 69;
+
+    %{
+        ids.bridge_address = context.bridge_address;
+        ids.counter_address = context.counter_address;
+    %}
+    
+    let (val_old) = Counter.get_val(counter_address);
+    assert val_old = 1;
+
+    BridgeExecutorBase._execute_actions_set(
+        bridge_address,
+        counter_address,
+        INCREMENT_BY_SELECTOR,
+        1,
+        data_arr
+    );
+
+    let (val_new) = Counter.get_val(counter_address);
+    assert val_new = 70; // 1+69
 
     return ();
 }

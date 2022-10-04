@@ -2,9 +2,7 @@
 
 from starkware.cairo.common.cairo_builtins import HashBuiltin
 from starkware.starknet.common.syscalls import get_caller_address
-from starkware.starknet.common.syscalls import (
-    call_contract,
-)
+from starkware.starknet.common.syscalls import call_contract
 
 
 from src.interfaces.i_executor_base import ActionsSet, User, Call

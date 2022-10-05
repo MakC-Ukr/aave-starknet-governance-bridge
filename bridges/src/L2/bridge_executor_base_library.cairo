@@ -5,7 +5,7 @@ from starkware.starknet.common.syscalls import get_caller_address
 from starkware.starknet.common.syscalls import call_contract
 
 
-from src.interfaces.i_executor_base import ActionsSet, User, Call
+from src.L2.interfaces.i_executor_base import ActionsSet, User, Call
 
 const MINIMUM_GRACE_PERIOD = 10; // is equal to 10 minutes in Solidity  
 // Time between queuing and execution

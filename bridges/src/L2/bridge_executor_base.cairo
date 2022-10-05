@@ -2,10 +2,12 @@
 
 from starkware.cairo.common.cairo_builtins import HashBuiltin
 from starkware.cairo.common.math import (assert_lt)
-from src.bridge_executor_base_library import BridgeExecutorBaseLibrary
+from src.L2.bridge_executor_base_library import BridgeExecutorBaseLibrary
 from starkware.starknet.common.syscalls import call_contract
 from starkware.cairo.common.alloc import alloc
 const MINIMUM_GRACE_PERIOD = 10; // is equal to 10 minutes in Solidity  
+const INCREMENT_SELECTOR = 216030643445273762074482936742625134427639679021380938148798651889117677069;
+const INCREMENT_BY_SELECTOR = 1372527888969287386569109374288593585984070617352816222675776115507726520402;
 
 @constructor
 func constructor{
@@ -145,6 +147,40 @@ func _execute_actions_set{
     data: felt*,
 ) -> (){
     BridgeExecutorBaseLibrary._execute_actions_set(target, signature, data_len, data);
+    return ();
+}
+
+@external
+func increase_counter{
+    syscall_ptr : felt*,
+    pedersen_ptr : HashBuiltin*,
+    range_check_ptr
+}(
+    target: felt,
+) -> (){
+    let (data_arr: felt*) = alloc();
+    BridgeExecutorBaseLibrary._execute_actions_set(target, INCREMENT_SELECTOR, 0, data_arr);
+    return ();
+}
+
+@external
+func increase_counter_by_val{
+    syscall_ptr : felt*,
+    pedersen_ptr : HashBuiltin*,
+    range_check_ptr
+}(
+    target: felt,
+    by_val : felt
+) -> (){
+    let (data_arr: felt*) = alloc();
+    data_arr[0] = by_val;
+
+    BridgeExecutorBaseLibrary._execute_actions_set(
+        target,
+        INCREMENT_BY_SELECTOR,
+        1,
+        data_arr
+    );
     return ();
 }
 

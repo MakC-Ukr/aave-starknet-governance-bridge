@@ -36,15 +36,17 @@ namespace BridgeExecutorBase {
     }
     func _execute_actions_set(target: felt, signature: felt, data_len: felt, data: felt*) -> (){
     }
+    func increase_counter(target: felt) -> (){
+    }
+    func increase_counter_by_val (target: felt, by_val : felt) -> (){
+    }
 }
 
-const INCREMENT_SELECTOR = 216030643445273762074482936742625134427639679021380938148798651889117677069;
-const INCREMENT_BY_SELECTOR = 1372527888969287386569109374288593585984070617352816222675776115507726520402;
 
 @external
 func __setup__() {
-    %{ context.bridge_address = deploy_contract("./src/bridge_executor_base.cairo", [20,10,1,100,1000]).contract_address %}
-    %{ context.counter_address = deploy_contract("./src/counter.cairo", []).contract_address %}
+    %{ context.bridge_address = deploy_contract("./src/L2/bridge_executor_base.cairo", [20,10,1,100,1000]).contract_address %}
+    %{ context.counter_address = deploy_contract("./src/L2/counter.cairo", []).contract_address %}
     return ();
 }
 
@@ -129,8 +131,6 @@ func test_call_contract{
     alloc_locals;
     local bridge_address;
     local counter_address;
-    let (data_arr: felt*) = alloc();
-    assert data_arr[0] = 69;
 
     %{
         ids.bridge_address = context.bridge_address;
@@ -140,12 +140,9 @@ func test_call_contract{
     let (val_old) = Counter.get_val(counter_address);
     assert val_old = 1;
 
-    BridgeExecutorBase._execute_actions_set(
+    BridgeExecutorBase.increase_counter(
         bridge_address,
         counter_address,
-        INCREMENT_SELECTOR,
-        0,
-        data_arr
     );
 
     let (val_new) = Counter.get_val(counter_address);
@@ -163,8 +160,7 @@ func test_call_contract_with_param{
     alloc_locals;
     local bridge_address;
     local counter_address;
-    let (data_arr: felt*) = alloc();
-    assert data_arr[0] = 69;
+    local by_val = 69;
 
     %{
         ids.bridge_address = context.bridge_address;
@@ -174,12 +170,10 @@ func test_call_contract_with_param{
     let (val_old) = Counter.get_val(counter_address);
     assert val_old = 1;
 
-    BridgeExecutorBase._execute_actions_set(
+    BridgeExecutorBase.increase_counter_by_val(
         bridge_address,
         counter_address,
-        INCREMENT_BY_SELECTOR,
-        1,
-        data_arr
+        by_val
     );
 
     let (val_new) = Counter.get_val(counter_address);

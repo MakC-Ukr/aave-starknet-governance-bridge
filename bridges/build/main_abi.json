@@ -2,30 +2,206 @@
     {
         "inputs": [
             {
-                "name": "amount",
+                "name": "delay",
+                "type": "felt"
+            },
+            {
+                "name": "grace_period",
+                "type": "felt"
+            },
+            {
+                "name": "minimum_delay",
+                "type": "felt"
+            },
+            {
+                "name": "maximum_delay",
+                "type": "felt"
+            },
+            {
+                "name": "guardian",
                 "type": "felt"
             }
         ],
-        "name": "increase_balance",
+        "name": "constructor",
         "outputs": [],
-        "type": "function"
+        "type": "constructor"
     },
     {
         "inputs": [],
-        "name": "get_balance",
+        "name": "get_delay",
         "outputs": [
             {
                 "name": "res",
                 "type": "felt"
             }
         ],
-        "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
-        "name": "constructor",
+        "name": "get_grace_period",
+        "outputs": [
+            {
+                "name": "res",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "get_minimum_delay",
+        "outputs": [
+            {
+                "name": "res",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "get_maximum_delay",
+        "outputs": [
+            {
+                "name": "res",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "get_guardian",
+        "outputs": [
+            {
+                "name": "res",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "val",
+                "type": "felt"
+            }
+        ],
+        "name": "set_delay",
         "outputs": [],
-        "type": "constructor"
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "val",
+                "type": "felt"
+            }
+        ],
+        "name": "set_grace_period",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "val",
+                "type": "felt"
+            }
+        ],
+        "name": "set_minimum_delay",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "val",
+                "type": "felt"
+            }
+        ],
+        "name": "set_maximum_delay",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "val",
+                "type": "felt"
+            }
+        ],
+        "name": "set_guardian",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "target",
+                "type": "felt"
+            },
+            {
+                "name": "signature",
+                "type": "felt"
+            },
+            {
+                "name": "data_len",
+                "type": "felt"
+            },
+            {
+                "name": "data",
+                "type": "felt*"
+            }
+        ],
+        "name": "_execute_actions_set",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "target",
+                "type": "felt"
+            }
+        ],
+        "name": "increase_counter",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "target",
+                "type": "felt"
+            },
+            {
+                "name": "by_val",
+                "type": "felt"
+            }
+        ],
+        "name": "increase_counter_by_val",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "from_address",
+                "type": "felt"
+            },
+            {
+                "name": "target",
+                "type": "felt"
+            },
+            {
+                "name": "signature",
+                "type": "felt"
+            }
+        ],
+        "name": "l1_action_receive",
+        "outputs": [],
+        "type": "l1_handler"
     }
 ]

@@ -6,6 +6,5 @@ libs_path = "lib"
 
 ["protostar.contracts"]
 main = [
-    "src/main.cairo",
-    "src/bridge_executor_base_library.cairo"
+    "src/L2/bridge_executor_base.cairo"
 ]

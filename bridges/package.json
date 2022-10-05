@@ -8,6 +8,7 @@
     "test": "tests"
   },
   "scripts": {
+    "test": "hardhat test --network l1_testnet --starknet-network l2_testnet",
     "testnet:l2": "starknet-devnet --host 0.0.0.0 --lite-mode",
     "testnet:l1": "source .env && yarn ganache --fork https://eth-mainnet.alchemyapi.io/v2/$ALCHEMY_KEY@$BLOCK_NUMBER --gasPrice 2000000000000",
     "compile:l1": "hardhat compile",

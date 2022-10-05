@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv";
-
+require("dotenv").config();
 import { HardhatUserConfig } from "hardhat/types";
 import "@shardlabs/starknet-hardhat-plugin";
 import "@nomiclabs/hardhat-ethers";
@@ -26,10 +26,9 @@ const config: HardhatUserConfig = {
     devnet: {
         url: "http://127.0.0.1:5050"
     },
-    integratedDevnet: {
-        url: "http://127.0.0.1:5050"
-    },
-    hardhat: {}
+    hardhat: {
+
+    }
   },
   mocha: {
     timeout: 1800000,

@@ -5,6 +5,12 @@ protostar_version = "0.4.2"
 libs_path = "lib"
 
 ["protostar.contracts"]
-main = [
+bridge_executor_base_library = [
+    "contracts/L2/bridge_executor_base_library.cairo"
+]
+bridge_executor_base = [
     "contracts/L2/bridge_executor_base.cairo"
+]
+counter_l2 = [
+    "contracts/L2/counter_l2.cairo"
 ]

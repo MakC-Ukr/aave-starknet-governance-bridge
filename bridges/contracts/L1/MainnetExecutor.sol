@@ -20,8 +20,37 @@ contract MainnetExecutor{
         uint256[] memory payload = new uint256[](0);
         starknetCore.sendMessageToL2(l2Evaluator, INCREMENT_SELECTOR, payload);
     }
-
-
-
-
 }
+
+// pragma solidity 0.8.10;
+
+// import {IStarknetMessaging} from "./IStarknetMessaging.sol";
+
+// contract Executor {
+//     IStarknetMessaging public _messagingContract;
+//     uint256 public _targetContractAddress;
+//     uint256 public _l2Bridge;
+//     /**
+//         @notice bridge constructor
+//         @param messagingContract address of the messaging contract
+//      */
+//     constructor(
+//         address messagingContract,
+//         uint256 l2Bridge,
+//         uint256 targetContractAddress
+//     ) {
+//         _l2Bridge = l2Bridge;
+//         _targetContractAddress = targetContractAddress;
+//         _messagingContract = IStarknetMessaging(messagingContract);
+//     }
+
+//     function setCounter(uint128 counter) public {
+//         uint256[] memory payload = new uint256[](3);
+//         payload[0] = _targetContractAddress; //target contract address
+//         _messagingContract.sendMessageToL2(
+//             _l2Bridge,
+//             COUNTER_SELECTOR,
+//             payload
+//         );
+//     }
+// }

@@ -3,7 +3,7 @@ from starkware.cairo.common.cairo_builtins import HashBuiltin
 from starkware.cairo.common.alloc import alloc
 
 @contract_interface
-namespace Counter {
+namespace Counter_l2 {
     func increment() {
     }
     func increment_by(by_val: felt) {
@@ -45,7 +45,7 @@ namespace BridgeExecutorBase {
 @external
 func __setup__() {
     %{ context.bridge_address = deploy_contract("./contracts/L2/bridge_executor_base.cairo", [20,10,1,100,1000]).contract_address %}
-    %{ context.counter_address = deploy_contract("./contracts/L2/counter.cairo", []).contract_address %}
+    %{ context.counter_address = deploy_contract("./contracts/L2/counter_l2.cairo", []).contract_address %}
     return ();
 }
 
@@ -110,12 +110,12 @@ func test_call_contract{syscall_ptr: felt*, range_check_ptr, pedersen_ptr: HashB
         ids.counter_address = context.counter_address;
     %}
 
-    let (val_old) = Counter.get_val(counter_address);
+    let (val_old) = Counter_l2.get_val(counter_address);
     assert val_old = 1;
 
     BridgeExecutorBase.increase_counter(bridge_address, counter_address);
 
-    let (val_new) = Counter.get_val(counter_address);
+    let (val_new) = Counter_l2.get_val(counter_address);
     assert val_new = 2;  // 1+1
 
     return ();
@@ -134,12 +134,12 @@ func test_call_contract_with_param{syscall_ptr: felt*, range_check_ptr, pedersen
         ids.counter_address = context.counter_address;
     %}
 
-    let (val_old) = Counter.get_val(counter_address);
+    let (val_old) = Counter_l2.get_val(counter_address);
     assert val_old = 1;
 
     BridgeExecutorBase.increase_counter_by_val(bridge_address, counter_address, by_val);
 
-    let (val_new) = Counter.get_val(counter_address);
+    let (val_new) = Counter_l2.get_val(counter_address);
     assert val_new = 70;  // 1+69
 
     return ();

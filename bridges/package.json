@@ -8,7 +8,10 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "testnet:l2": "starknet-devnet --host 0.0.0.0 --lite-mode",
+    "testnet:l1": "source .env && yarn ganache --fork https://eth-mainnet.alchemyapi.io/v2/$ALCHEMY_KEY@$BLOCK_NUMBER --gasPrice 2000000000000",
+    "compile:l1": "hardhat compile",
+    "compile:l2": "hardhat starknet-compile --disable-hint-validation"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +20,8 @@
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@shardlabs/starknet-hardhat-plugin": "^0.6.6",
     "hardhat": "^2.11.2"
+  },
+  "dependencies": {
+    "ganache": "^7.4.3"
   }
 }

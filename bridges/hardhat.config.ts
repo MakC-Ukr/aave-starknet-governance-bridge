@@ -14,22 +14,22 @@ const config: HardhatUserConfig = {
   starknet: {
     venv: "~/cairo_venv",
     network: "devnet",
-    // wallets: {
-    //   OpenZeppelin: {
-    //     accountName: "OpenZeppelin",
-    //     modulePath:
-    //       "starkware.starknet.wallets.open_zeppelin.OpenZeppelinAccount",
-    //     accountPath: "~/.starknet_accounts",
-    //   },
-    // },
+    wallets: {
+      OpenZeppelin: {
+          accountName: "OpenZeppelin",
+          modulePath: "starkware.starknet.wallets.open_zeppelin.OpenZeppelinAccount",
+          accountPath: "~/.starknet_accounts"
+      }
+    }
   },
   networks: {
     devnet: {
-      url: "http://127.0.0.1:5050",
+        url: "http://127.0.0.1:5050"
     },
     integratedDevnet: {
-      url: "http://127.0.0.1:5050",
+        url: "http://127.0.0.1:5050"
     },
+    hardhat: {}
   },
   mocha: {
     timeout: 1800000,
